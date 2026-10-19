@@ -696,15 +696,15 @@ function initCountdown() {
 
        CHANGE THIS DATE LATER IF REQUIRED
 
-       18 December 2026
-       9:30 AM
+       12 November 2026
+       9:26 PM
        India Standard Time
        =====================================================
     */
 
     const weddingDate =
         new Date(
-            "2026-12-18T09:30:00+05:30"
+            "2026-11-12T21:26:00+05:30"
         );
 
 

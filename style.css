@@ -4329,3 +4329,57 @@ body {
         letter-spacing: 4px;
     }
 }
+
+/* =========================================================
+   NAME PREFIX (Dr) + LONGER VENUE NAME
+   Keeps longer names / venue title inside the layout
+========================================================= */
+
+.bride-name,
+.groom-name {
+    max-width: 100%;
+
+    overflow-wrap: break-word;
+}
+
+.name-prefix {
+    font-size: 0.5em;
+
+    letter-spacing: 1px;
+
+    vertical-align: 0.35em;
+
+    opacity: 0.85;
+}
+
+.venue-details h3 {
+    font-size: clamp(24px, 2.4vw, 32px);
+
+    line-height: 1.25;
+
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 650px) {
+    .venue-details h3 {
+        font-size: 24px;
+    }
+}
+
+
+/* =========================================================
+   JOURNEY LOTUSES - SINGLE EVENT LAYOUT (mobile)
+   Keeps lotuses in the empty gap above the closing text
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .journey-lotus-left {
+        right: 20px;
+        top: 560px;
+    }
+
+    .journey-lotus-third {
+        display: none;
+    }
+}
