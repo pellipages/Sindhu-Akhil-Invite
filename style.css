@@ -4383,3 +4383,339 @@ body {
         display: none;
     }
 }
+
+
+/* =========================================================
+   PELLI SECTION (single wedding card)
+   Mobile first, tuned for ~360px wide phones
+========================================================= */
+
+.pelli {
+    position: relative;
+
+    width: 100%;
+    min-height: 680px;
+    min-height: max(680px, 100svh);
+
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+}
+
+.pelli-content {
+    position: relative;
+    z-index: 6;
+
+    width: 100%;
+    max-width: 520px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 40px 54px 235px;
+
+    text-align: center;
+}
+
+/* Reveal animation (class "reveal" is added by script.js) */
+
+.pelli-reveal {
+    opacity: 0;
+
+    transform: translateY(32px);
+
+    transition:
+        opacity 0.9s ease var(--d, 0s),
+        transform 1s ease var(--d, 0s);
+}
+
+.pelli-reveal.reveal {
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+.pelli-eyebrow {
+    margin: 0;
+
+    font-family: Georgia, serif;
+    font-size: 11px;
+    line-height: 2;
+    letter-spacing: 5px;
+
+    color: #81794d;
+}
+
+.pelli-art {
+    width: 100%;
+
+    margin-top: 72px;
+}
+
+.pelli-art img {
+    display: block;
+
+    width: 118%;
+    max-width: none;
+    height: auto;
+
+    margin-left: -9%;
+}
+
+.pelli-title {
+    margin: 6px 0 0;
+
+    font-family: "Nirmala UI", "Noto Sans Telugu", serif;
+    font-size: 60px;
+    line-height: 1.3;
+    font-weight: 650;
+
+    color: #9c413d;
+}
+
+.pelli-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+
+    margin: 4px 0 14px;
+
+    color: #8e3f38;
+}
+
+.pelli-divider span {
+    display: block;
+
+    width: 46px;
+    height: 1px;
+
+    background: rgba(142, 63, 56, 0.55);
+}
+
+.pelli-divider i {
+    font-style: normal;
+    font-size: 18px;
+}
+
+.pelli-date,
+.pelli-time {
+    margin: 0;
+
+    font-family: "Nirmala UI", "Noto Sans Telugu", sans-serif;
+    font-size: 17px;
+    line-height: 1.9;
+    font-weight: 500;
+
+    color: #6d4a39;
+}
+
+.pelli-time {
+    color: #8e3f38;
+}
+
+.pelli-tagline {
+    margin: 22px 0 0;
+
+    font-family: "Nirmala UI", "Noto Sans Telugu", serif;
+    font-size: 15px;
+    line-height: 1.9;
+
+    color: #806655;
+}
+
+/* Decorations */
+
+.pelli-lamp,
+.pelli-pond,
+.pelli-stem,
+.pelli-parrot {
+    position: absolute;
+
+    height: auto;
+
+    pointer-events: none;
+}
+
+.pelli-lamp {
+    z-index: 7;
+
+    width: 44px;
+    top: -26px;
+}
+
+.pelli-lamp-left {
+    left: 42px;
+}
+
+.pelli-lamp-right {
+    right: 42px;
+}
+
+.pelli-pond {
+    z-index: 3;
+
+    width: 210px;
+    bottom: -30px;
+
+    opacity: 0.95;
+}
+
+.pelli-pond-left {
+    left: -34px;
+}
+
+.pelli-pond-right {
+    right: -34px;
+
+    transform: scaleX(-1);
+}
+
+.pelli-stem {
+    z-index: 3;
+
+    width: 92px;
+    bottom: 96px;
+
+    opacity: 0.9;
+}
+
+.pelli-stem-left {
+    left: 38px;
+
+    transform: rotate(-6deg);
+}
+
+.pelli-stem-right {
+    right: 38px;
+
+    transform: scaleX(-1) rotate(-6deg);
+}
+
+.pelli-parrot {
+    z-index: 5;
+
+    width: 66px;
+    top: 228px;
+    right: 40px;
+
+    display: none;
+}
+
+/* Desktop / tablet */
+
+@media (min-width: 651px) {
+
+    .pelli {
+        min-height: max(760px, 100vh);
+    }
+
+    .pelli-content {
+        max-width: 640px;
+
+        padding: 70px 40px 230px;
+    }
+
+    .pelli-eyebrow {
+        font-size: 13px;
+    }
+
+    .pelli-art {
+        margin-top: 72px;
+    }
+
+    .pelli-art img {
+        width: 100%;
+
+        margin-left: 0;
+    }
+
+    .pelli-title {
+        font-size: 76px;
+    }
+
+    .pelli-date,
+    .pelli-time {
+        font-size: 20px;
+    }
+
+    .pelli-tagline {
+        font-size: 18px;
+    }
+
+    .pelli-lamp {
+        width: 64px;
+
+        top: -34px;
+    }
+
+    .pelli-lamp-left {
+        left: 14%;
+    }
+
+    .pelli-lamp-right {
+        right: 14%;
+    }
+
+    .pelli-pond {
+        width: 380px;
+
+        bottom: -50px;
+    }
+
+    .pelli-pond-left {
+        left: 0;
+    }
+
+    .pelli-pond-right {
+        right: 0;
+    }
+
+    .pelli-stem {
+        width: 130px;
+
+        bottom: 170px;
+    }
+
+    .pelli-stem-left {
+        left: 7%;
+    }
+
+    .pelli-stem-right {
+        right: 7%;
+    }
+}
+
+/* Very small phones (320px) */
+
+@media (max-width: 340px) {
+
+    .pelli-eyebrow {
+        font-size: 10px;
+
+        letter-spacing: 3px;
+    }
+
+    .pelli-title {
+        font-size: 54px;
+    }
+}
+
+
+/* Narrow phones (320px): keep eyebrow clear of the lamps */
+
+@media (max-width: 340px) {
+
+    .pelli-eyebrow {
+        font-size: 10px;
+
+        letter-spacing: 3px;
+    }
+
+    .pelli-content {
+        padding-left: 46px;
+        padding-right: 46px;
+    }
+}

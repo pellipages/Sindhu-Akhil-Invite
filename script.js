@@ -901,7 +901,7 @@ function initScrollReveal() {
 
     const elements =
         document.querySelectorAll(
-            ".journey-title, .event, .connector, .journey-ending, .location-heading, .venue-details, .map-wrapper, .location-footer"
+            ".pelli-reveal, .journey-title, .event, .connector, .journey-ending, .location-heading, .venue-details, .map-wrapper, .location-footer"
         );
 
 
