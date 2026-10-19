@@ -61,10 +61,6 @@ async function loadSections() {
 
         /* Start everything only after HTML is loaded */
 
-        initScratch();
-
-        initCountdown();
-
         initScrollReveal();
 
     }

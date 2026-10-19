@@ -4719,3 +4719,256 @@ body {
         padding-right: 46px;
     }
 }
+
+
+
+/* =========================================================
+   HERO LAMPS (mobile) - flank Ganesha, never cover the text
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .hero-lamp {
+        width: 42px !important;
+    }
+
+    .hero-lamp-left {
+        left: 28% !important;
+        right: auto !important;
+        top: -14px !important;
+    }
+
+    .hero-lamp-right {
+        right: 25% !important;
+        left: auto !important;
+        top: -44px !important;
+    }
+
+    .hero-kolam {
+        left: -50px !important;
+    }
+}
+
+
+/* =========================================================
+   PELLI TEXT (English)
+========================================================= */
+
+.pelli-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 56px;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -1px;
+    line-height: 1.25;
+}
+
+.pelli-date,
+.pelli-time {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.pelli-tagline {
+    max-width: 270px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+@media (min-width: 651px) {
+
+    .pelli-title {
+        font-size: 72px;
+    }
+
+    .pelli-date,
+    .pelli-time {
+        font-size: 19px;
+    }
+
+    .pelli-tagline {
+        max-width: 380px;
+
+        font-size: 18px;
+    }
+}
+
+
+/* =========================================================
+   SAVE THE DATE (direct date, no scratch card)
+========================================================= */
+
+.save-date {
+    position: relative;
+
+    width: 100%;
+    min-height: 640px;
+    min-height: max(640px, 100svh);
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.save-date-content {
+    position: relative;
+    z-index: 4;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 30px 0 110px;
+}
+
+.save-date-eyebrow {
+    margin: 0 0 28px;
+
+    font-family: Georgia, serif;
+    font-size: 12px;
+    letter-spacing: 7px;
+    font-weight: 700;
+
+    color: #81794d;
+}
+
+.save-date-card {
+    position: relative;
+
+    width: min(78%, 300px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 30px 20px 32px;
+
+    border: 1px solid rgba(142, 63, 56, 0.45);
+
+    background: rgba(255, 250, 242, 0.55);
+
+    box-shadow:
+        inset 0 0 0 6px rgba(255, 250, 242, 0.55),
+        inset 0 0 0 7px rgba(142, 63, 56, 0.25),
+        0 14px 30px rgba(120, 80, 60, 0.12);
+
+    text-align: center;
+}
+
+.save-date-spark {
+    font-style: normal;
+    font-size: 16px;
+
+    color: #b9775c;
+}
+
+.save-date-day {
+    margin-top: 6px;
+
+    font-family: Georgia, serif;
+    font-size: 104px;
+    line-height: 1.05;
+
+    color: #8e3f38;
+}
+
+.save-date-month {
+    margin-top: 4px;
+
+    font-family: Georgia, serif;
+    font-size: 17px;
+    letter-spacing: 9px;
+    text-indent: 9px;
+
+    color: #8e3f38;
+}
+
+.save-date-year {
+    margin-top: 2px;
+
+    font-family: Georgia, serif;
+    font-size: 34px;
+
+    color: #6d4a39;
+}
+
+.save-date-line {
+    display: block;
+
+    width: 70px;
+    height: 1px;
+
+    margin: 20px 0 16px;
+
+    background: rgba(142, 63, 56, 0.5);
+}
+
+.save-date-label {
+    font-family: Georgia, serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-indent: 5px;
+
+    color: #81794d;
+}
+
+.save-date-time {
+    margin: 6px 0 14px;
+
+    font-family: Georgia, serif;
+    font-size: 26px;
+
+    color: #6d4a39;
+}
+
+.save-date-stem {
+    position: absolute;
+    z-index: 2;
+
+    width: 74px;
+    height: auto;
+    bottom: 10px;
+
+    opacity: 0.9;
+
+    pointer-events: none;
+}
+
+.save-date-stem-left {
+    left: 26px;
+
+    transform: rotate(-5deg);
+}
+
+.save-date-stem-right {
+    right: 26px;
+
+    transform: scaleX(-1) rotate(-5deg);
+}
+
+@media (min-width: 651px) {
+
+    .save-date-card {
+        width: 340px;
+    }
+
+    .save-date-stem {
+        width: 120px;
+    }
+
+    .save-date-stem-left {
+        left: 14%;
+    }
+
+    .save-date-stem-right {
+        right: 14%;
+    }
+}
