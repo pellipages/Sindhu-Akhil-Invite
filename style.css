@@ -4972,3 +4972,428 @@ body {
         right: 14%;
     }
 }
+
+
+/* =========================================================
+   ELEGANT THEME - fonts + colours
+   Fonts are self-hosted in /fonts so they look identical on
+   every phone (Android has no Georgia).
+     Cormorant Garamond : names, body text
+     Cinzel             : small capital labels
+     Great Vibes        : script accents
+========================================================= */
+
+@font-face {
+    font-family: "Cormorant Garamond";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("fonts/cormorant-garamond-latin-500-normal.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Cormorant Garamond";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Cormorant Garamond";
+    font-style: italic;
+    font-weight: 500;
+    font-display: swap;
+    src: url("fonts/cormorant-garamond-latin-500-italic.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Cormorant Garamond";
+    font-style: italic;
+    font-weight: 600;
+    font-display: swap;
+    src: url("fonts/cormorant-garamond-latin-600-italic.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Cinzel";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("fonts/cinzel-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Cinzel";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("fonts/cinzel-latin-600-normal.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Great Vibes";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("fonts/great-vibes-latin-400-normal.woff2") format("woff2");
+}
+
+:root {
+    --maroon: #7a1f2e;
+    --maroon-soft: #8c2f3b;
+    --gold: #9a7430;
+    --gold-line: #c3a064;
+    --ink: #4a3326;
+    --ink-soft: #6b5242;
+
+    --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --font-caps: "Cinzel", Georgia, "Times New Roman", serif;
+    --font-script: "Great Vibes", "Cormorant Garamond", Georgia, cursive;
+}
+
+/* ---------- Envelope ---------- */
+
+.open-text {
+    font-family: var(--font-caps);
+    font-size: 10px;
+    letter-spacing: 5px;
+
+    color: var(--maroon-soft);
+}
+
+.envelope-seal span {
+    font-family: var(--font-caps);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: 1px;
+}
+
+/* ---------- Hero ---------- */
+
+.hero-request {
+    max-width: 270px;
+    margin-left: auto;
+    margin-right: auto;
+
+    font-family: var(--font-caps);
+    font-size: 9.5px;
+    font-weight: 600;
+    line-height: 2;
+    letter-spacing: 2px;
+
+    color: var(--gold);
+}
+
+.hero-request br {
+    display: none;
+}
+
+.bride-name,
+.groom-name {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(32px, 12vw, 54px);
+    letter-spacing: 0;
+    line-height: 1.15;
+    white-space: nowrap;
+
+    color: var(--maroon);
+}
+
+.name-prefix {
+    font-family: var(--font-caps);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.3em;
+    letter-spacing: 3px;
+    vertical-align: 0.9em;
+
+    color: var(--gold);
+
+    opacity: 1;
+}
+
+.parents {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.55;
+
+    color: var(--ink-soft);
+}
+
+.parents strong {
+    font-family: var(--font-serif);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 17px;
+
+    color: var(--ink);
+}
+
+.with span {
+    background: var(--gold-line);
+}
+
+.with em {
+    font-family: var(--font-script);
+    font-style: normal;
+    font-size: 30px;
+    line-height: 1;
+
+    color: var(--gold);
+}
+
+/* ---------- Save the date ---------- */
+
+.save-date-eyebrow {
+    font-family: var(--font-caps);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 7px;
+
+    color: var(--gold);
+}
+
+.save-date-card {
+    border-color: rgba(154, 116, 48, 0.55);
+
+    box-shadow:
+        inset 0 0 0 6px rgba(255, 250, 242, 0.55),
+        inset 0 0 0 7px rgba(154, 116, 48, 0.35),
+        0 14px 30px rgba(120, 80, 60, 0.12);
+}
+
+.save-date-spark {
+    color: var(--gold-line);
+}
+
+.save-date-day {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 112px;
+    line-height: 1;
+
+    color: var(--maroon);
+}
+
+.save-date-month {
+    font-family: var(--font-caps);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 9px;
+    text-indent: 9px;
+
+    color: var(--gold);
+}
+
+.save-date-year {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 38px;
+
+    color: var(--ink);
+}
+
+.save-date-line {
+    background: var(--gold-line);
+}
+
+.save-date-label {
+    font-family: var(--font-caps);
+    font-size: 10px;
+    letter-spacing: 5px;
+
+    color: var(--gold);
+}
+
+.save-date-time {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 30px;
+
+    color: var(--maroon);
+}
+
+/* ---------- Wedding (pelli) ---------- */
+
+.pelli-eyebrow {
+    font-family: var(--font-caps);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 5px;
+
+    color: var(--gold);
+}
+
+.pelli-title {
+    font-family: var(--font-script);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 68px;
+    letter-spacing: 0;
+    line-height: 1.2;
+
+    color: var(--maroon);
+}
+
+.pelli-divider {
+    color: var(--gold);
+}
+
+.pelli-divider span {
+    background: var(--gold-line);
+}
+
+.pelli-date,
+.pelli-time {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+
+    color: var(--ink);
+}
+
+.pelli-time {
+    color: var(--maroon);
+}
+
+.pelli-tagline {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 1.5;
+
+    color: var(--ink-soft);
+}
+
+/* ---------- Venue ---------- */
+
+.location-small,
+.venue-label {
+    font-family: var(--font-caps);
+    font-weight: 600;
+
+    color: var(--gold);
+}
+
+.location-small {
+    font-size: 11px;
+    letter-spacing: 6px;
+}
+
+.venue-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+}
+
+.location-heading h2 {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 44px;
+    line-height: 1.15;
+
+    color: var(--maroon);
+}
+
+.location-line {
+    background: var(--gold-line);
+}
+
+.venue-details h3 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 27px;
+    line-height: 1.2;
+
+    color: var(--maroon);
+}
+
+.venue-address,
+.venue-date {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.55;
+
+    color: var(--ink);
+}
+
+.map-button {
+    font-family: var(--font-caps);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+
+    color: var(--maroon);
+
+    border-color: var(--maroon-soft);
+}
+
+.location-footer p {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 17px;
+
+    color: var(--ink-soft);
+}
+
+@media (min-width: 651px) {
+
+    .bride-name,
+    .groom-name {
+        font-size: 64px;
+    }
+
+    .hero-request {
+        max-width: 480px;
+
+        font-size: 11px;
+    }
+
+    .pelli-title {
+        font-size: 88px;
+    }
+
+    .pelli-tagline {
+        font-size: 22px;
+    }
+
+    .location-heading h2 {
+        font-size: 54px;
+    }
+}
+
+
+/* Lining (full-height) numbers so dates and times read clearly */
+
+body,
+.save-date-day,
+.save-date-year,
+.save-date-time,
+.pelli-date,
+.pelli-time,
+.venue-date {
+    font-variant-numeric: lining-nums;
+    font-feature-settings: "lnum" 1;
+}
+
+/* keep the banana leaf clear of the intro text */
+
+@media (max-width: 650px) {
+
+    .hero-request {
+        position: relative;
+        top: 14px;
+
+        max-width: 250px;
+    }
+}
