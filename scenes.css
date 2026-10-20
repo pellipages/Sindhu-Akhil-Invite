@@ -1414,3 +1414,19 @@ body.invite-open {
 .stage-root.reduced .sc-hint {
     animation: none !important;
 }
+
+
+/* =========================================================
+   HIDDEN UI (kept in the markup/JS; delete these rules to
+   bring any of them back)
+   - "TAP TO CONTINUE" hint
+   - progress bar at the top
+   - "REPLAY INVITATION" button
+========================================================= */
+
+.sc-hint,
+.sc-progress,
+.sc-replay,
+.stage-root[data-last="1"][data-ready="1"] .sc-replay {
+    display: none !important;
+}
