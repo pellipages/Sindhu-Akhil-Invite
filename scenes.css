@@ -812,6 +812,18 @@ body.invite-open {
 
 .sc-dais img {
     width: 100%;
+
+    /* soft edges: the artwork is a tight crop, so let the
+       sleeve and sari fade into the paper instead of ending
+       in a hard rectangle */
+    -webkit-mask-image:
+        linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%),
+        linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+    mask-image:
+        linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%),
+        linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
 }
 
 .sc-orn {
