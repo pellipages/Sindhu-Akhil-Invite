@@ -1430,3 +1430,10 @@ body.invite-open {
 .stage-root[data-last="1"][data-ready="1"] .sc-replay {
     display: none !important;
 }
+
+/* back / next arrow buttons hidden (tap anywhere still advances;
+   delete this rule to bring them back) */
+
+.sc-nav {
+    display: none !important;
+}
