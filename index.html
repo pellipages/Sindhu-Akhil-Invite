@@ -6,7 +6,7 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     >
 
     <title>Sai Sindhu & Akhil</title>
@@ -15,6 +15,23 @@
         rel="stylesheet"
         href="style.css"
     >
+
+    <link
+        rel="stylesheet"
+        href="scenes.css"
+    >
+
+    <!-- Fonts and first-scene artwork load while the envelope is on screen -->
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/cormorant-garamond-latin-600-italic.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/cormorant-garamond-latin-500-normal.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/cinzel-latin-400-normal.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/great-vibes-latin-400-normal.woff2">
+    <link rel="preload" as="image" href="img/banana-leaves.webp">
+    <link rel="preload" as="image" href="img/hanging-lamp.webp">
+    <link rel="preload" as="image" href="img/kolam.webp">
+    <link rel="preload" as="image" href="img/parrot.webp">
+    <link rel="preload" as="image" href="img/ganesha.webp">
+    <link rel="preload" as="image" href="img/lotus-corner.webp">
 </head>
 
 
@@ -54,44 +71,265 @@
          MAIN WEDDING INVITATION
     ========================================== -->
 
+    <!-- =========================================
+         TAP-THROUGH INVITATION
+         Scenes: opening → save the date →
+         ceremony → pelli → venue
+         (scene logic lives in scenes.js,
+          look and motion in scenes.css)
+    ========================================== -->
+
     <main
         id="mainInvite"
-        class="main-invite"
+        class="main-invite stage-root"
     >
 
-
-        <!-- =====================================
-             HERO.HTML
-
-             Hero
-             Save The Date
-             Countdown
-        ====================================== -->
-
-        <div id="heroContainer"></div>
+        <div class="stage" id="stage">
 
 
+            <!-- ===== SCENE 1 · OPENING ===== -->
 
-        <!-- =====================================
-             JOURNEY.HTML
+            <section class="sc" id="scene-opening" data-scene="opening">
 
-             Wedding Events
-             Kolam Side Borders
-        ====================================== -->
+                <div class="sc-depth">
 
-        <div id="journeyContainer"></div>
+                    <div class="sc-leaf sc-leaf-r sc-banana-r">
+                        <img src="img/banana-leaves.webp" width="900" height="1105" alt="">
+                    </div>
+
+                    <div class="sc-leaf sc-leaf-l sc-banana-l">
+                        <img src="img/banana-leaves.webp" width="900" height="1105" alt="">
+                    </div>
+
+                    <div class="sc-lamp sc-lamp-a"><img src="img/hanging-lamp.webp" width="260" height="903" alt=""></div>
+                    <div class="sc-lamp sc-lamp-b"><img src="img/hanging-lamp.webp" width="260" height="903" alt=""></div>
+
+                    <div class="sc-kolam"><img src="img/kolam.webp" width="800" height="827" alt=""></div>
+
+                    <div class="sc-lotus"><img src="img/lotus-corner.webp" width="900" height="882" alt=""></div>
+
+                    <div class="sc-parrot"><img src="img/parrot.webp" width="700" height="535" alt=""></div>
+
+                </div>
+
+                <div class="sc-center sc-hero-copy">
+
+                    <div class="sc-ganesha"><img src="img/ganesha.webp" width="800" height="897" alt="Lord Ganesha"></div>
+
+                    <p class="sc-request sc-rise">
+                        WE REQUEST THE PLEASURE OF YOUR PRESENCE
+                        ON THE AUSPICIOUS OCCASION OF THE
+                        WEDDING CELEBRATION OF
+                    </p>
+
+                    <div class="sc-rise sc-bride">
+                        <h1 class="sc-name"><span class="sc-prefix">Dr</span> Sai Sindhu</h1>
+                        <p class="sc-parents">
+                            Daughter of <strong>Dr K. Apparao</strong>
+                            <br>
+                            &amp; <strong>Dr K. Vijaya</strong>
+                        </p>
+                    </div>
+
+                    <div class="sc-with sc-rise">
+                        <span></span><em>with</em><span></span>
+                    </div>
+
+                    <div class="sc-rise sc-groom">
+                        <h1 class="sc-name"><span class="sc-prefix">Dr</span> Akhil</h1>
+                        <p class="sc-parents">
+                            Son of <strong>Dr A. Satish Babu</strong>
+                            <br>
+                            &amp; <strong>Dr A. Kavitha</strong>
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
 
 
+            <!-- ===== SCENE 2 · SAVE THE DATE ===== -->
 
-        <!-- =====================================
-             LOCATION.HTML
+            <section class="sc" id="scene-date" data-scene="date">
 
-             Venue
-             Map
-        ====================================== -->
+                <div class="sc-depth">
 
-        <div id="locationContainer"></div>
+                    <div class="sc-leaf sc-leaf-r sc-banana-r"><img src="img/banana-leaves.webp" width="900" height="1105" alt="" loading="lazy" decoding="async"></div>
+                    <div class="sc-leaf sc-leaf-l sc-banana-l"><img src="img/banana-leaves.webp" width="900" height="1105" alt="" loading="lazy" decoding="async"></div>
 
+                    <div class="sc-stem sc-stem-l sc-lotus"><img src="img/lotus-stems.webp" width="600" height="900" alt="" loading="lazy" decoding="async"></div>
+                    <div class="sc-stem sc-stem-r sc-lotus"><img src="img/lotus-stems.webp" width="600" height="900" alt="" loading="lazy" decoding="async"></div>
+
+                </div>
+
+                <div class="sc-center sc-date-copy">
+
+                    <p class="sc-eyebrow sc-rise">SAVE THE DATE</p>
+
+                    <div class="sc-card sc-rise">
+                        <i class="sc-spark">✦</i>
+                        <span class="sc-day">12</span>
+                        <span class="sc-month">NOVEMBER</span>
+                        <span class="sc-year">2026</span>
+                        <span class="sc-card-line"></span>
+                        <small class="sc-card-label">MUHURTHAM</small>
+                        <span class="sc-card-time">9:26 PM</span>
+                        <i class="sc-spark">✦</i>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ===== SCENE 3 · THE CEREMONY ===== -->
+
+            <section class="sc" id="scene-ceremony" data-scene="ceremony">
+
+                <div class="sc-depth">
+
+                    <div class="sc-lamp sc-lamp-c"><img src="img/hanging-lamp.webp" width="260" height="903" alt="" loading="lazy" decoding="async"></div>
+                    <div class="sc-lamp sc-lamp-d"><img src="img/hanging-lamp.webp" width="260" height="903" alt="" loading="lazy" decoding="async"></div>
+
+                    <div class="sc-plant sc-plant-l sc-banana-l"><img src="img/banana-leaves.webp" width="900" height="1105" alt="" loading="lazy" decoding="async"></div>
+                    <div class="sc-plant sc-plant-r sc-banana-r"><img src="img/banana-leaves.webp" width="900" height="1105" alt="" loading="lazy" decoding="async"></div>
+
+                </div>
+
+                <div class="sc-center sc-ceremony-copy">
+
+                    <div class="sc-dais"><img src="img/puja.webp" width="1100" height="733" alt="The wedding ceremony" loading="lazy" decoding="async"></div>
+
+                    <div class="sc-orn sc-rise"><span></span><i>❦</i><span></span></div>
+
+                    <p class="sc-promise" id="promise" data-text="A promise of a lifetime"></p>
+
+                </div>
+
+            </section>
+
+
+            <!-- ===== SCENE 4 · PELLI ===== -->
+
+            <section class="sc" id="scene-pelli" data-scene="pelli">
+
+                <div class="sc-depth">
+
+                    <div class="sc-strip sc-strip-l"></div>
+                    <div class="sc-strip sc-strip-r"></div>
+
+                    <div class="sc-lamp sc-lamp-e"><img src="img/hanging-lamp.webp" width="260" height="903" alt="" loading="lazy" decoding="async"></div>
+                    <div class="sc-lamp sc-lamp-f"><img src="img/hanging-lamp.webp" width="260" height="903" alt="" loading="lazy" decoding="async"></div>
+
+                    <div class="sc-stem sc-stem-l sc-lotus"><img src="img/lotus-stems.webp" width="600" height="900" alt="" loading="lazy" decoding="async"></div>
+                    <div class="sc-stem sc-stem-r sc-lotus"><img src="img/lotus-stems.webp" width="600" height="900" alt="" loading="lazy" decoding="async"></div>
+
+                    <div class="sc-pond sc-pond-l sc-lotus"><img src="img/lotus-corner.webp" width="900" height="882" alt="" loading="lazy" decoding="async"></div>
+                    <div class="sc-pond sc-pond-r sc-lotus"><img src="img/lotus-corner.webp" width="900" height="882" alt="" loading="lazy" decoding="async"></div>
+
+                </div>
+
+                <div class="sc-center sc-pelli-copy">
+
+                    <div class="sc-pelli-art"><img src="img/hair-ceremony.webp" width="1100" height="733" alt="Wedding ceremony" loading="lazy" decoding="async"></div>
+
+                    <h2 class="sc-pelli-title sc-rise">Wedding</h2>
+
+                    <div class="sc-rule sc-rule-pelli sc-rise"><span></span><i>❦</i><span></span></div>
+
+                    <p class="sc-pelli-line sc-rise">Date : 12 / 11 / 2026</p>
+                    <p class="sc-pelli-line sc-pelli-time sc-rise">Muhurtham : 9:26 PM</p>
+
+                    <p class="sc-pelli-tagline sc-rise">
+                        And so, in the presence of everyone who loves them,
+                        forever begins.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- ===== SCENE 5 · VENUE ===== -->
+
+            <section class="sc" id="scene-venue" data-scene="venue">
+
+                <div class="sc-depth">
+
+                    <div class="sc-leaf sc-leaf-r sc-banana-r"><img src="img/banana-leaves.webp" width="900" height="1105" alt="" loading="lazy" decoding="async"></div>
+                    <div class="sc-pond sc-pond-l sc-lotus"><img src="img/lotus-corner.webp" width="900" height="882" alt="" loading="lazy" decoding="async"></div>
+
+                </div>
+
+                <div class="sc-scroll">
+                    <div class="sc-center sc-venue-copy">
+
+                        <div class="sc-rise sc-venue-head">
+                            <p class="sc-eyebrow">JOIN US AT</p>
+                            <h2 class="sc-h2">Wedding Venue</h2>
+                            <div class="sc-line"></div>
+                        </div>
+
+                        <div class="sc-rise sc-venue-details">
+                            <p class="sc-venue-label">THE WEDDING VENUE</p>
+                            <h3>Cherukuri Veeraju Subbalakshmi Kalyana Mandapam</h3>
+                            <p class="sc-venue-address">
+                                JN Road, Rajamahendravaram,
+                                <br>
+                                Andhra Pradesh
+                            </p>
+                            <p class="sc-venue-date">
+                                12 November 2026
+                                <br>
+                                Muhurtham • 9:26 PM
+                            </p>
+                            <a
+                                href="https://www.google.com/maps/search/?api=1&query=Cherukuri+Veeraju+Subbalakshmi+Kalyana+Mandapam+JN+Road+Rajamahendravaram"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="sc-map-button"
+                            >VIEW ON GOOGLE MAPS</a>
+                        </div>
+
+                        <div class="sc-rise sc-map">
+                            <iframe
+                                data-src="https://www.google.com/maps?q=Cherukuri%20Veeraju%20Subbalakshmi%20Kalyana%20Mandapam%20JN%20Road%20Rajamahendravaram&output=embed"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Wedding Venue Map"
+                            ></iframe>
+                        </div>
+
+                        <div class="sc-rise sc-venue-foot">
+                            <span></span>
+                            <p>We can't wait to celebrate with you</p>
+                            <span></span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- progress + navigation (outside .stage so taps on it never advance) -->
+
+        <div class="sc-ui">
+
+            <div class="sc-progress" id="scProgress" role="img" aria-label="Scene 1 of 5">
+                <i></i><i></i><i></i><i></i><i></i>
+            </div>
+
+            <button class="sc-nav sc-back" id="scBack" type="button" aria-label="Previous scene">&#8249;</button>
+            <button class="sc-nav sc-next" id="scNext" type="button" aria-label="Next scene">&#8250;</button>
+
+            <p class="sc-hint" id="scHint" aria-hidden="true">TAP TO CONTINUE</p>
+
+            <button class="sc-replay" id="scReplay" type="button">&#8635; REPLAY INVITATION</button>
+
+        </div>
 
     </main>
 
@@ -101,7 +339,7 @@
          JAVASCRIPT
     ========================================== -->
 
-    <script src="script.js"></script>
+    <script src="scenes.js"></script>
 
 
 </body>

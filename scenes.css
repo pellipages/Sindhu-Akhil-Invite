@@ -1,0 +1,1416 @@
+/* =========================================================
+   TAP-THROUGH INVITATION SCENES
+
+   Loaded after style.css. Everything here is namespaced
+   with the "sc-" prefix so it cannot disturb the older
+   rules in style.css (opening envelope, etc.).
+
+   Motion model
+   - Every animated object starts in a hidden state.
+   - scenes.js adds the class "in" to it at a scheduled time.
+   - The CSS on the object decides *how* it arrives.
+   - Skipping a scene adds "instant" (no transitions).
+========================================================= */
+
+:root {
+    /* colours and fonts come from style.css (:root) so both stay in sync */
+    --sc-ink: var(--ink, #4a3326);
+    --sc-soft: var(--ink-soft, #6b5242);
+    --sc-rose: var(--maroon, #7a1f2e);
+    --sc-rose-deep: var(--maroon-soft, #8c2f3b);
+    --sc-gold: var(--gold, #9a7430);
+    --sc-gold-line: var(--gold-line, #c3a064);
+    --sc-paper: rgba(244, 233, 213, 0.88);
+
+    --sc-ease-out: cubic-bezier(0.22, 0.8, 0.28, 1);
+    --sc-ease-settle: cubic-bezier(0.16, 0.84, 0.3, 1);
+    --sc-ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sc-serif: var(--font-serif, "Cormorant Garamond", Georgia, serif);
+    --sc-caps: var(--font-caps, "Cinzel", Georgia, serif);
+    --sc-script: var(--font-script, "Great Vibes", cursive);
+}
+
+
+/* =========================================================
+   STAGE
+   One unit (--u) is 1% of the usable viewport height, so
+   the composition follows the phone's real height rather
+   than assuming one aspect ratio.
+========================================================= */
+
+body.invite-open {
+    overflow: hidden;
+    height: 100%;
+}
+
+.main-invite.stage-root {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+
+    overflow: hidden;
+
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.main-invite.stage-root.show {
+    display: block;
+}
+
+.stage {
+    --u: 1vh;
+
+    position: absolute;
+    inset: 0;
+}
+
+@supports (height: 100dvh) {
+    .stage {
+        --u: 1dvh;
+    }
+}
+
+
+/* =========================================================
+   SCENE SHELL
+========================================================= */
+
+.sc {
+    position: absolute;
+    inset: 0;
+
+    overflow: hidden;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    padding:
+        env(safe-area-inset-top, 0px)
+        env(safe-area-inset-right, 0px)
+        env(safe-area-inset-bottom, 0px)
+        env(safe-area-inset-left, 0px);
+
+    color: var(--sc-ink);
+}
+
+.sc.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* page-turn exit: a slow fade with a tiny lift */
+
+.sc.leaving {
+    visibility: visible;
+    opacity: 0;
+    transform: translateY(-1.2%) scale(1.012);
+
+    transition:
+        opacity 0.65s var(--sc-ease-soft),
+        transform 0.65s var(--sc-ease-soft);
+}
+
+/* decorations live in a layer that settles slightly
+   (very subtle depth) when a scene begins */
+
+.sc-depth {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    transform: scale(1.025);
+    transition: transform 3.2s var(--sc-ease-soft);
+}
+
+.sc.active .sc-depth {
+    transform: scale(1);
+}
+
+.sc img {
+    display: block;
+    max-width: none;
+    height: auto;
+}
+
+/* every decorative wrapper sizes its picture */
+
+.sc-lotus img,
+.sc-pond img,
+.sc-stem img {
+    width: 100%;
+}
+
+
+/* centred copy column */
+
+.sc-center {
+    position: absolute;
+    inset: 0;
+
+    z-index: 6;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        calc(env(safe-area-inset-top, 0px) + 4 * var(--u))
+        8vw
+        calc(env(safe-area-inset-bottom, 0px) + 9 * var(--u));
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   GENERIC ARRIVALS
+========================================================= */
+
+/* text and small ornaments: soft rise */
+
+.sc-rise {
+    opacity: 0;
+    transform: translateY(calc(1.6 * var(--u)));
+
+    transition:
+        opacity 0.95s var(--sc-ease-soft),
+        transform 1.05s var(--sc-ease-out);
+}
+
+.sc-rise.in {
+    opacity: 1;
+    transform: none;
+}
+
+/* lotus, ponds, stems: grow up out of the bottom edge */
+
+.sc-lotus {
+    opacity: 0;
+    transform: translateY(6%);
+    transform-origin: 50% 100%;
+
+    transition:
+        opacity 1.4s var(--sc-ease-soft),
+        transform 2s var(--sc-ease-out);
+}
+
+.sc-lotus.in {
+    opacity: 1;
+    transform: none;
+}
+
+
+/* =========================================================
+   BANANA LEAVES — enter from beyond the side edges
+========================================================= */
+
+.sc-leaf {
+    position: absolute;
+    z-index: 2;
+
+    opacity: 0;
+
+    transition:
+        opacity 1.1s var(--sc-ease-soft),
+        transform 1.8s var(--sc-ease-out);
+}
+
+.sc-leaf-r {
+    transform: translateX(46%) rotate(5deg);
+    transform-origin: 100% 0;
+}
+
+.sc-leaf-l {
+    transform: translateX(-46%) rotate(-5deg);
+    transform-origin: 0 0;
+}
+
+.sc-leaf.in {
+    opacity: 1;
+    transform: none;
+}
+
+.sc-leaf img {
+    width: 100%;
+}
+
+.sc-leaf-l img {
+    transform: scaleX(-1);
+}
+
+/* one small settling sway after arrival */
+
+.sc.active .sc-leaf.in img {
+    animation: scSettle 2.6s ease-in-out 1.2s both;
+}
+
+@keyframes scSettle {
+    0%   { rotate: 0deg; }
+    38%  { rotate: -1.3deg; }
+    72%  { rotate: 0.5deg; }
+    100% { rotate: 0deg; }
+}
+
+
+/* =========================================================
+   HANGING LAMPS — descend on the chain, sway, then rest
+========================================================= */
+
+.sc-lamp {
+    position: absolute;
+    z-index: 7;
+
+    opacity: 0;
+    transform: translateY(-125%);
+
+    transition:
+        opacity 0.5s ease,
+        transform 1.9s var(--sc-ease-settle);
+}
+
+.sc-lamp.in {
+    opacity: 1;
+    transform: none;
+}
+
+.sc-lamp img {
+    width: 100%;
+    transform-origin: 50% 0;
+}
+
+/* a damped swing that dies away by itself */
+
+.sc.active .sc-lamp.in img {
+    animation: scSwing 3.6s ease-out 1.5s both;
+}
+
+@keyframes scSwing {
+    0%   { rotate: 0deg; }
+    14%  { rotate: 3.6deg; }
+    32%  { rotate: -2.6deg; }
+    50%  { rotate: 1.6deg; }
+    68%  { rotate: -0.9deg; }
+    84%  { rotate: 0.4deg; }
+    100% { rotate: 0deg; }
+}
+
+
+/* =========================================================
+   SCENE 1 — OPENING
+========================================================= */
+
+#scene-opening .sc-banana-r {
+    top: calc(-9 * var(--u));
+    right: -25vw;
+    width: 58vw;
+}
+
+#scene-opening .sc-banana-l {
+    top: calc(-6 * var(--u));
+    left: -29vw;
+    width: 50vw;
+}
+
+#scene-opening .sc-lamp-a {
+    top: calc(-2 * var(--u));
+    left: 28%;
+    width: 11.6vw;
+    max-width: 52px;
+}
+
+#scene-opening .sc-lamp-b {
+    top: calc(-6.5 * var(--u));
+    right: 25%;
+    width: 11.6vw;
+    max-width: 52px;
+}
+
+#scene-opening .sc-lamp-b.in img {
+    animation-delay: 1.8s;
+}
+
+/* kolam is revealed with a soft circular mask that grows
+   out of its centre, like the pattern being laid down */
+
+#scene-opening .sc-kolam {
+    position: absolute;
+    z-index: 3;
+
+    bottom: calc(9 * var(--u));
+    right: -11vw;
+    width: 44vw;
+    max-width: 260px;
+
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+#scene-opening .sc-kolam.in {
+    opacity: 0.94;
+}
+
+#scene-opening .sc-kolam img {
+    width: 100%;
+
+    /* mirrored so the pattern points inward from the right edge */
+    transform: scaleX(-1);
+
+    -webkit-mask-image: radial-gradient(circle closest-side, #000 68%, transparent 100%);
+    mask-image: radial-gradient(circle closest-side, #000 68%, transparent 100%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: 50% 50%;
+    mask-position: 50% 50%;
+    -webkit-mask-size: 0% 0%;
+    mask-size: 0% 0%;
+
+    transition:
+        -webkit-mask-size 2.3s var(--sc-ease-soft),
+        mask-size 2.3s var(--sc-ease-soft);
+}
+
+#scene-opening .sc-kolam.in img {
+    -webkit-mask-size: 280% 280%;
+    mask-size: 280% 280%;
+}
+
+#scene-opening .sc-lotus {
+    position: absolute;
+    z-index: 2;
+
+    left: -8vw;
+    bottom: calc(-6 * var(--u));
+    width: 56vw;
+    max-width: 320px;
+}
+
+/* parrot glides in along an arc, then rests with a tiny bob */
+
+#scene-opening .sc-parrot {
+    position: absolute;
+    z-index: 5;
+
+    top: calc(15 * var(--u));
+    left: 9vw;
+    width: 22vw;
+    max-width: 120px;
+
+    opacity: 0;
+    transform: translate(36vw, calc(-14 * var(--u))) rotate(9deg) scale(0.86);
+
+    transition:
+        opacity 0.9s var(--sc-ease-soft),
+        transform 2s var(--sc-ease-settle);
+}
+
+#scene-opening .sc-parrot.in {
+    opacity: 1;
+    transform: none;
+}
+
+#scene-opening .sc-parrot img {
+    width: 100%;
+}
+
+.sc.done .sc-parrot img {
+    animation: scBob 7s ease-in-out infinite;
+}
+
+@keyframes scBob {
+    0%, 100% { transform: translate(0, 0) rotate(-1deg); }
+    50%      { transform: translate(2px, -4px) rotate(1deg); }
+}
+
+/* Ganesha: ink that settles onto the paper from the top down */
+
+.sc-ganesha {
+    opacity: 0;
+
+    transition: opacity 0.8s ease;
+}
+
+.sc-ganesha.in {
+    opacity: 1;
+}
+
+.sc-ganesha img {
+    width: min(22vw, calc(11.5 * var(--u)));
+    margin: 0 auto;
+
+    -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 38%, transparent 62%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0, #000 38%, transparent 62%, transparent 100%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 260%;
+    mask-size: 100% 260%;
+    -webkit-mask-position: 0 100%;
+    mask-position: 0 100%;
+
+    transition:
+        -webkit-mask-position 2.5s var(--sc-ease-soft),
+        mask-position 2.5s var(--sc-ease-soft);
+}
+
+.sc-ganesha.in img {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+}
+
+.sc-hero-copy {
+    padding-left: 11vw;
+    padding-right: 11vw;
+}
+
+.sc-request {
+    max-width: 270px;
+    margin: calc(1.6 * var(--u)) auto calc(2.2 * var(--u));
+
+    font-family: var(--sc-caps);
+    font-size: clamp(9px, 2.65vw, 11px);
+    line-height: 2;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    text-wrap: balance;
+
+    color: var(--sc-gold);
+}
+
+.sc-name {
+    margin: 0;
+
+    font-family: var(--sc-serif);
+    font-size: min(13vw, calc(7.4 * var(--u)), 64px);
+    line-height: 1.15;
+    font-weight: 600;
+    font-style: italic;
+    letter-spacing: 0;
+    white-space: nowrap;
+
+    color: var(--sc-rose);
+}
+
+.sc-prefix {
+    font-family: var(--sc-caps);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.3em;
+    letter-spacing: 3px;
+    vertical-align: 0.9em;
+
+    color: var(--sc-gold);
+}
+
+.sc-parents {
+    margin: calc(0.9 * var(--u)) 0 0;
+
+    font-family: var(--sc-serif);
+    font-size: clamp(14px, 4.2vw, 17px);
+    font-weight: 500;
+    line-height: 1.55;
+
+    color: var(--sc-soft);
+}
+
+.sc-parents strong {
+    font-weight: 600;
+
+    color: var(--sc-ink);
+}
+
+.sc-with {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+
+    margin: calc(1.4 * var(--u)) 0 calc(1 * var(--u));
+}
+
+.sc-with span {
+    width: 14vw;
+    max-width: 56px;
+    height: 1px;
+
+    background: var(--sc-gold-line);
+}
+
+.sc-with em {
+    font-family: var(--sc-script);
+    font-style: normal;
+    font-size: clamp(24px, 8vw, 30px);
+    line-height: 1.2;
+
+    color: var(--sc-gold);
+}
+
+
+/* =========================================================
+   SHARED TYPE — eyebrow, Telugu title, rule
+========================================================= */
+
+.sc-eyebrow {
+    font-family: var(--sc-caps);
+    font-size: clamp(10px, 3.1vw, 12px);
+    letter-spacing: 0.5em;
+    padding-left: 0.5em;
+    font-weight: 600;
+
+    color: var(--sc-gold);
+}
+
+.sc-h2 {
+    margin-top: calc(1 * var(--u));
+
+    font-family: var(--sc-serif);
+    font-size: clamp(32px, 10.5vw, 44px);
+    line-height: 1.1;
+    font-weight: 500;
+
+    color: var(--sc-rose);
+}
+
+.sc-rule,
+.sc-orn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+
+    color: var(--sc-gold);
+}
+
+.sc-rule span,
+.sc-orn span {
+    display: block;
+    width: 12vw;
+    max-width: 50px;
+    height: 1px;
+
+    background: var(--sc-gold-line);
+}
+
+.sc-rule i,
+.sc-orn i {
+    font-style: normal;
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   SCENE 2 — SAVE THE DATE
+   Same card as the site's .save-date (no scratch, no countdown)
+========================================================= */
+
+#scene-date .sc-banana-r {
+    top: calc(-8 * var(--u));
+    right: -34vw;
+    width: 66vw;
+}
+
+#scene-date .sc-banana-l {
+    top: calc(-6 * var(--u));
+    left: -36vw;
+    width: 62vw;
+}
+
+.sc-date-copy {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 6 * var(--u));
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 12 * var(--u));
+}
+
+.sc-date-copy .sc-eyebrow {
+    margin: 0 0 calc(3.4 * var(--u));
+}
+
+.sc-card {
+    position: relative;
+
+    width: min(78vw, 300px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: calc(3.4 * var(--u)) 20px calc(3.4 * var(--u));
+
+    border: 1px solid rgba(154, 116, 48, 0.55);
+    background: rgba(255, 250, 242, 0.55);
+    box-shadow:
+        inset 0 0 0 6px rgba(255, 250, 242, 0.55),
+        inset 0 0 0 7px rgba(154, 116, 48, 0.28),
+        0 14px 30px rgba(120, 80, 60, 0.12);
+
+    text-align: center;
+}
+
+.sc-spark {
+    font-style: normal;
+    font-size: 16px;
+
+    color: var(--sc-gold-line);
+}
+
+.sc-day {
+    margin-top: 6px;
+
+    font-family: var(--sc-serif);
+    font-size: min(30vw, calc(15 * var(--u)), 112px);
+    font-weight: 600;
+    line-height: 1.05;
+
+    color: var(--sc-rose);
+}
+
+.sc-month {
+    margin-top: 4px;
+
+    font-family: var(--sc-caps);
+    font-size: clamp(13px, 4.3vw, 16px);
+    letter-spacing: 0.5em;
+    padding-left: 0.5em;
+
+    color: var(--sc-gold);
+}
+
+.sc-year {
+    margin-top: 2px;
+
+    font-family: var(--sc-serif);
+    font-size: clamp(30px, 10vw, 38px);
+    font-weight: 600;
+
+    color: var(--sc-ink);
+}
+
+.sc-card-line {
+    display: block;
+    width: 70px;
+    height: 1px;
+    margin: calc(2.4 * var(--u)) 0 calc(2 * var(--u));
+
+    background: var(--sc-gold-line);
+}
+
+.sc-card-label {
+    font-family: var(--sc-caps);
+    font-size: 10px;
+    letter-spacing: 5px;
+    padding-left: 5px;
+
+    color: var(--sc-gold);
+}
+
+.sc-card-time {
+    margin: 6px 0 calc(1.8 * var(--u));
+
+    font-family: var(--sc-serif);
+    font-size: clamp(24px, 8vw, 30px);
+    font-weight: 600;
+
+    color: var(--sc-rose);
+}
+
+
+/* =========================================================
+   SCENE 3 — THE CEREMONY
+========================================================= */
+
+#scene-ceremony .sc-lamp-c {
+    top: calc(-8 * var(--u));
+    left: 15vw;
+    width: 15vw;
+    max-width: 76px;
+}
+
+#scene-ceremony .sc-lamp-d {
+    top: calc(-8 * var(--u));
+    right: 15vw;
+    width: 15vw;
+    max-width: 76px;
+}
+
+#scene-ceremony .sc-lamp-d.in img {
+    animation-delay: 1.8s;
+}
+
+/* banana plants stand on the ground on either side of the dais */
+
+.sc-plant {
+    position: absolute;
+    z-index: 2;
+
+    bottom: calc(-9 * var(--u));
+    width: 46vw;
+    max-width: 300px;
+
+    opacity: 0;
+    transform: translateY(14%) scale(0.94);
+    transform-origin: 50% 100%;
+
+    transition:
+        opacity 1.3s var(--sc-ease-soft),
+        transform 2.2s var(--sc-ease-out);
+}
+
+.sc-plant.in {
+    opacity: 1;
+    transform: none;
+}
+
+.sc-plant-r {
+    right: -22vw;
+}
+
+.sc-plant-l {
+    left: -22vw;
+}
+
+.sc-plant-l img {
+    transform: scaleX(-1);
+}
+
+.sc-plant img {
+    width: 100%;
+}
+
+.sc-ceremony-copy {
+    padding-left: 5vw;
+    padding-right: 5vw;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 10 * var(--u));
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 17 * var(--u));
+}
+
+.sc-dais {
+    width: min(100vw, calc(52 * var(--u)), 480px);
+    margin-left: -5vw;
+    margin-right: -5vw;
+
+    opacity: 0;
+    transform: scale(0.93);
+    transform-origin: 50% 60%;
+
+    transition:
+        opacity 1.5s var(--sc-ease-soft),
+        transform 2.4s var(--sc-ease-out);
+}
+
+.sc-dais.in {
+    opacity: 1;
+    transform: none;
+}
+
+.sc-dais img {
+    width: 100%;
+}
+
+.sc-orn {
+    margin: calc(2.4 * var(--u)) 0 calc(1.2 * var(--u));
+}
+
+.sc-promise {
+    font-family: var(--sc-serif);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(26px, 8.4vw, 38px);
+    line-height: 1.25;
+
+    min-height: 1.3em;
+    max-width: 100%;
+
+    color: var(--sc-rose);
+}
+
+/* typed letters occupy their space from the start,
+   so nothing reflows while the phrase is written */
+
+.sc-promise .w {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.sc-promise .c {
+    opacity: 0;
+}
+
+.sc-promise .c.on {
+    opacity: 1;
+}
+
+.sc-promise .sp {
+    display: inline-block;
+    width: 0.3em;
+}
+
+
+/* =========================================================
+   SCENE 4 — PELLI
+========================================================= */
+
+.sc-strip {
+    position: absolute;
+    z-index: 4;
+
+    top: 2.5vh;
+    bottom: 2.5vh;
+    width: 30px;
+
+    background-image: url("img/kolam-border.webp");
+    background-repeat: repeat-y;
+    background-position: top center;
+    background-size: 30px auto;
+
+    opacity: 0;
+
+    -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0, #000 70%, transparent 100%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 0%;
+    mask-size: 100% 0%;
+
+    transition:
+        opacity 0.5s ease,
+        -webkit-mask-size 2.4s var(--sc-ease-soft),
+        mask-size 2.4s var(--sc-ease-soft);
+}
+
+.sc-strip.in {
+    opacity: 0.9;
+
+    -webkit-mask-size: 100% 150%;
+    mask-size: 100% 150%;
+}
+
+.sc-strip-l { left: 10px; }
+.sc-strip-r { right: 10px; }
+
+#scene-pelli .sc-lamp-e {
+    top: calc(-3 * var(--u));
+    left: 11vw;
+    width: 12vw;
+    max-width: 56px;
+}
+
+#scene-pelli .sc-lamp-f {
+    top: calc(-3 * var(--u));
+    right: 11vw;
+    width: 12vw;
+    max-width: 56px;
+}
+
+#scene-pelli .sc-lamp-f.in img {
+    animation-delay: 1.8s;
+}
+
+.sc-stem {
+    position: absolute;
+    z-index: 3;
+
+    bottom: calc(8 * var(--u));
+    width: 19vw;
+    max-width: 100px;
+}
+
+.sc-stem-l {
+    left: 9vw;
+    rotate: -6deg;
+}
+
+.sc-stem-r {
+    right: 9vw;
+    rotate: 6deg;
+}
+
+.sc-stem-r img {
+    transform: scaleX(-1);
+}
+
+.sc-stem img {
+    width: 100%;
+}
+
+.sc-pond {
+    position: absolute;
+    z-index: 3;
+
+    bottom: calc(-4 * var(--u));
+    width: 46vw;
+    max-width: 250px;
+}
+
+.sc-pond-l {
+    left: -9vw;
+}
+
+.sc-pond-r {
+    right: -9vw;
+}
+
+.sc-pond-r img {
+    transform: scaleX(-1);
+}
+
+.sc-pelli-copy {
+    padding-left: 9vw;
+    padding-right: 9vw;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 12 * var(--u));
+}
+
+.sc-pelli-art {
+    width: min(100vw, calc(36 * var(--u)), 430px);
+    margin-left: -9vw;
+    margin-right: -9vw;
+
+    opacity: 0;
+    transform: scale(0.94) translateY(calc(1.5 * var(--u)));
+    transform-origin: 50% 70%;
+
+    transition:
+        opacity 1.4s var(--sc-ease-soft),
+        transform 2.2s var(--sc-ease-out);
+}
+
+.sc-pelli-art.in {
+    opacity: 1;
+    transform: none;
+}
+
+.sc-pelli-art img {
+    width: 100%;
+}
+
+.sc-pelli-title {
+    margin: calc(0.4 * var(--u)) 0 0;
+
+    font-family: var(--sc-script);
+    font-size: min(19vw, calc(10 * var(--u)), 72px);
+    line-height: 1.15;
+    font-weight: 400;
+
+    color: var(--sc-rose);
+}
+
+.sc-rule-pelli {
+    margin: calc(0.4 * var(--u)) 0 calc(1.4 * var(--u));
+}
+
+.sc-pelli-line {
+    margin: 0;
+
+    font-family: var(--sc-serif);
+    font-size: clamp(17px, 5.4vw, 21px);
+    line-height: 1.7;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+
+    color: var(--sc-ink);
+}
+
+.sc-pelli-time {
+    color: var(--sc-rose);
+}
+
+.sc-pelli-tagline {
+    max-width: 270px;
+    margin: calc(2 * var(--u)) 0 0;
+
+    font-family: var(--sc-serif);
+    font-style: italic;
+    font-size: clamp(16px, 5vw, 19px);
+    line-height: 1.6;
+
+    color: var(--sc-soft);
+}
+
+
+/* =========================================================
+   SCENE 5 — VENUE
+   Scrolls inside itself only if a very short phone needs it.
+========================================================= */
+
+#scene-venue .sc-banana-r {
+    top: calc(-8 * var(--u));
+    right: -34vw;
+    width: 64vw;
+}
+
+.sc-scroll {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+
+    scrollbar-width: none;
+}
+
+.sc-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.sc-venue-copy {
+    position: relative;
+    inset: auto;
+
+    min-height: 100%;
+
+    justify-content: center;
+
+    padding-top: calc(env(safe-area-inset-top, 0px) + 7 * var(--u));
+    padding-top: calc(env(safe-area-inset-top, 0px) + 5 * var(--u));
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 84px);
+}
+
+.sc-line {
+    width: 70px;
+    height: 1px;
+    margin: calc(1.2 * var(--u)) auto 0;
+
+    background: rgba(142, 63, 56, 0.5);
+}
+
+.sc-venue-details {
+    margin-top: calc(2 * var(--u));
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sc-venue-label {
+    font-family: var(--sc-caps);
+    font-size: clamp(9.5px, 2.8vw, 11px);
+    letter-spacing: 0.34em;
+    padding-left: 0.34em;
+    font-weight: 600;
+
+    color: var(--sc-gold);
+}
+
+.sc-venue-details h3 {
+    margin-top: calc(1 * var(--u));
+
+    font-family: var(--sc-serif);
+    font-size: clamp(19px, 5.6vw, 28px);
+    line-height: 1.25;
+    font-weight: 600;
+
+    color: var(--sc-rose);
+}
+
+.sc-venue-address {
+    margin-top: calc(1.2 * var(--u));
+
+    font-size: clamp(13px, 3.8vw, 16px);
+    line-height: 1.7;
+}
+
+.sc-venue-date {
+    margin-top: calc(1.2 * var(--u));
+
+    font-size: clamp(13px, 3.8vw, 16px);
+    line-height: 1.7;
+    font-weight: 600;
+
+    color: var(--sc-rose-deep);
+}
+
+.sc-map-button {
+    font-family: var(--sc-caps);
+    margin-top: calc(1.6 * var(--u));
+    padding: 11px 20px;
+
+    font-size: 10.5px;
+    letter-spacing: 0.26em;
+    text-decoration: none;
+    font-weight: 600;
+
+    color: var(--sc-rose-deep);
+    background: rgba(255, 249, 237, 0.55);
+    border: 1px solid var(--sc-gold-line);
+    border-radius: 2px;
+}
+
+.sc-map {
+    width: 100%;
+    max-width: 440px;
+    margin-top: calc(2 * var(--u));
+
+    height: clamp(110px, calc(19 * var(--u)), 220px);
+
+    border: 1px solid rgba(142, 63, 56, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+
+    background: rgba(255, 249, 237, 0.4);
+}
+
+.sc-map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+
+    filter: sepia(0.25) saturate(0.85);
+}
+
+.sc-venue-foot {
+    margin-top: calc(2 * var(--u));
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+}
+
+.sc-venue-foot span {
+    width: 8vw;
+    max-width: 36px;
+    height: 1px;
+
+    background: rgba(142, 63, 56, 0.45);
+}
+
+.sc-venue-foot p {
+    font-style: italic;
+    font-size: clamp(13px, 3.8vw, 16px);
+
+    color: var(--sc-soft);
+}
+
+
+/* =========================================================
+   NAVIGATION — progress, back/next, hint, replay
+========================================================= */
+
+.sc-ui {
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+
+    pointer-events: none;
+}
+
+.sc-progress {
+    position: absolute;
+    top: calc(env(safe-area-inset-top, 0px) + 10px);
+    left: 50%;
+
+    width: min(58vw, 240px);
+
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 5px;
+}
+
+.sc-progress i {
+    flex: 1;
+    height: 3px;
+
+    border-radius: 2px;
+
+    background: rgba(112, 73, 54, 0.2);
+
+    transition: background 0.5s ease;
+}
+
+.sc-progress i.done,
+.sc-progress i.now {
+    background: rgba(156, 65, 61, 0.75);
+}
+
+.sc-progress i.now {
+    background: var(--sc-rose);
+}
+
+.sc-nav {
+    position: absolute;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+
+    width: 44px;
+    height: 44px;
+
+    display: grid;
+    place-items: center;
+
+    padding: 0 0 4px;
+
+    font-family: var(--sc-serif);
+    font-size: 28px;
+    line-height: 1;
+
+    color: var(--sc-rose-deep);
+    background: var(--sc-paper);
+    border: 1px solid rgba(142, 63, 56, 0.4);
+    border-radius: 50%;
+
+    cursor: pointer;
+    pointer-events: auto;
+
+    transition: opacity 0.4s ease;
+}
+
+.sc-back { left: 14px; }
+.sc-next { right: 14px; }
+
+.sc-nav:disabled {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sc-nav:focus-visible,
+.sc-replay:focus-visible,
+.sc-map-button:focus-visible {
+    outline: 2px solid var(--sc-rose);
+    outline-offset: 3px;
+}
+
+.sc-hint {
+    font-family: var(--sc-caps);
+    position: absolute;
+    left: 50%;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 28px);
+
+    transform: translateX(-50%);
+
+    padding: 7px 14px;
+
+        font-size: 9.5px;
+    letter-spacing: 0.34em;
+    white-space: nowrap;
+
+    color: var(--sc-ink);
+    background: var(--sc-paper);
+    border-radius: 20px;
+
+    opacity: 0;
+    transition: opacity 0.7s ease;
+}
+
+.stage-root[data-ready="1"] .sc-hint {
+    opacity: 1;
+    animation: scHintPulse 2.4s ease-in-out infinite;
+}
+
+.stage-root[data-last="1"] .sc-hint {
+    display: none;
+}
+
+@keyframes scHintPulse {
+    0%, 100% { opacity: 0.55; }
+    50%      { opacity: 1; }
+}
+
+.sc-replay {
+    font-family: var(--sc-caps);
+    position: absolute;
+    left: 50%;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+
+    transform: translateX(-50%);
+
+    padding: 12px 20px;
+
+        font-size: 10px;
+    letter-spacing: 0.26em;
+    white-space: nowrap;
+
+    color: var(--sc-rose-deep);
+    background: var(--sc-paper);
+    border: 1px solid rgba(142, 63, 56, 0.5);
+    border-radius: 24px;
+
+    cursor: pointer;
+    pointer-events: auto;
+
+    display: none;
+}
+
+.stage-root[data-last="1"][data-ready="1"] .sc-replay {
+    display: block;
+}
+
+
+/* =========================================================
+   SKIPPING / REDUCED MOTION
+========================================================= */
+
+/* "instant" = the scene is shown complete without playing */
+
+.sc.instant *,
+.sc.instant *::before,
+.sc.instant *::after {
+    transition: none !important;
+}
+
+.sc.instant .sc-lamp img,
+.sc.instant .sc-leaf img {
+    animation: none !important;
+}
+
+/* reduced motion: content simply appears, no travel,
+   drawing, swaying or looping */
+
+.stage-root.reduced .sc *,
+.stage-root.reduced .sc *::before,
+.stage-root.reduced .sc *::after {
+    animation: none !important;
+}
+
+.stage-root.reduced .sc-rise,
+.stage-root.reduced .sc-lotus,
+.stage-root.reduced .sc-leaf,
+.stage-root.reduced .sc-lamp,
+.stage-root.reduced .sc-plant,
+.stage-root.reduced .sc-parrot,
+.stage-root.reduced .sc-dais,
+.stage-root.reduced .sc-pelli-art,
+.stage-root.reduced .sc-depth {
+    transform: none !important;
+    transition: opacity 0.35s ease !important;
+}
+
+.stage-root.reduced .sc.leaving {
+    transform: none;
+    transition: opacity 0.3s ease;
+}
+
+.stage-root.reduced .sc-kolam img,
+.stage-root.reduced .sc-ganesha img,
+.stage-root.reduced .sc-strip {
+    -webkit-mask-size: 100% 150% !important;
+    mask-size: 100% 150% !important;
+    -webkit-mask-position: 0 0 !important;
+    mask-position: 0 0 !important;
+    transition: none !important;
+}
+
+.stage-root.reduced .sc-kolam img {
+    -webkit-mask-size: 280% 280% !important;
+    mask-size: 280% 280% !important;
+    -webkit-mask-position: 50% 50% !important;
+    mask-position: 50% 50% !important;
+}
+
+.stage-root.reduced .sc-ganesha img {
+    -webkit-mask-size: 100% 260% !important;
+    mask-size: 100% 260% !important;
+}
+
+.stage-root.reduced .sc-hint {
+    animation: none !important;
+}
